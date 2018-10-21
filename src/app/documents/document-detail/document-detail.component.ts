@@ -9,6 +9,7 @@ import{Document} from '../document.modle';
 export class DocumentDetailComponent implements OnInit {
 
   @Input() document: Document;
+  
   constructor() { }
 
   ngOnInit() {

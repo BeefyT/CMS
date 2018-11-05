@@ -8,6 +8,7 @@ import {Document} from '../document.modle';
 })
 export class DocumentItemComponent implements OnInit {
   @Input() document: Document; 
+  
 
   constructor() { }
 

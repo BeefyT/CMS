@@ -9,6 +9,8 @@ export class DocumentsService {
 
   documentSelectedEvent = new EventEmitter<Document>();
 
+  documentChangedEvent = new EventEmitter<Document[]>();
+
   documents: Document[] = [];
 
   constructor() { 
@@ -21,9 +23,9 @@ export class DocumentsService {
 
   getDocument(id: string): Document {
     
-    for(let i = 0; i<this.documents.length; i++){
-      if(Document[i].id === id){
-        return Document[i];
+    for(const document of this.documents){
+      if(document.id === id){
+        return document;
       }
     }
     return null;

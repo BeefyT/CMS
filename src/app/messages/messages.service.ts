@@ -20,9 +20,9 @@ export class MessagesService {
 
   getMessage(id: string): Message {
     
-    for(let i = 0; i<this.messages.length; i++){
-      if(Message[i].id === id){
-        return Message[i];
+    for(const message of this.messages){
+      if(message.id === id){
+        return message;
       }
     }
     return null;

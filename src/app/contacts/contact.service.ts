@@ -10,6 +10,9 @@ export class ContactService {
 
 contactSelectedEvent = new EventEmitter<Contact>();
 
+contactChangedEvent = new EventEmitter<Contact[]>();
+
+
 contacts: Contact[] = [];
 
   constructor() { 
@@ -23,13 +26,17 @@ contacts: Contact[] = [];
 
   getContact(id: string): Contact {
     
-    for(let i = 0; i<this.contacts.length; i++){
-      if(Contact[i].id === id){
-        return Contact[i];
+    for(const contact of this.contacts){
+      if(contact.id === id){
+        return contact;
       }
     }
     return null;
    } 
+
+   deleteContact(contact:Contact){
+    delete contact.id;
+   }
 
 
 }

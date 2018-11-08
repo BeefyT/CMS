@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {Document} from '../document.modle';
 import {DocumentsService} from '../documents.service';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Subscriber } from 'rxjs';
+
 
 @Component({
   selector: 'cms-document-list',
@@ -17,7 +20,17 @@ documentId: String = '';
    }
 
 
+
+   //DONT UNDERSTAND
   ngOnInit() {
-  }
+    this.documentService.documentChangedEvent
+    .subscribe(
+    (documents: Document[])=>{
+      this.documents = documents;
+    }
+    );
 
 }
+
+}
+    

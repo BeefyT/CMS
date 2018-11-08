@@ -20,7 +20,7 @@ export class DocumentDetailComponent implements OnInit {
     private windowRefService: WindRefService,
     private router: Router,
     private route:ActivatedRoute) { 
-      this.nativeWindow = windowRefService.getNative();
+      this.nativeWindow = windowRefService.getNativeWindow();
     }
 
     ngOnInit() {
@@ -40,6 +40,11 @@ export class DocumentDetailComponent implements OnInit {
       if (this.document.url){
         this.nativeWindow.open(this.document.url)
       }
+    }
+
+    onDelete(){
+      this.documentService.deleteDocument(this.document);
+      this.router.navigate(['/documents']);
     }
 
 }

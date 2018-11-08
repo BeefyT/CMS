@@ -16,15 +16,15 @@ export class MessageListComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.route.params
-        .subscribe(
-          (params: Params) => {
-            this.id = params['id'];
+    //this.route.params
+       // .subscribe(
+          //(params: Params) => {
+           // this.id = params['id'];
           
-            this.messages = this.messageService.getMessages(this.id);
-            console.log(this.messages);
-          }
-        );
+           // this.messages = this.messageService.getMessages(this.id);
+           // console.log(this.messages);
+         // }
+       // );
   }
 
   //addOnMessage(message:Message){

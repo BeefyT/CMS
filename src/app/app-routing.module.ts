@@ -7,6 +7,8 @@ import {ContactsComponent} from "../app/contacts/contacts.component";
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { DocumentDetailComponent } from './documents/document-detail/document-detail.component';
 import {DocumentListComponent} from './documents/document-list/document-list.component';
+import { ContactsDetailComponent } from './contacts/contacts-detail/contacts-detail.component';
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 
 const app_Routes: Routes = [
@@ -19,7 +21,11 @@ const app_Routes: Routes = [
     ]},
 
     {path: "messages", component: MessageListComponent},
-    {path: "contact", component: ContactsComponent},
+    {path: "contact", component: ContactsComponent, children:[
+        {path: 'new', component: ContactEditComponent},
+        {path: ':id', component: ContactsDetailComponent},
+        {path: ':id/edit', component: ContactEditComponent},
+    ]},
 ];
 
 @NgModule({

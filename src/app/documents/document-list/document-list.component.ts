@@ -18,9 +18,7 @@ documentId: String = '';
 private subscription: Subscription;
 
 
-  constructor( private documentService: DocumentsService) {
-    this.documents = this.documentService.getDocuments();
-   }
+  constructor( private documentService: DocumentsService) {}
 
 
 
@@ -38,7 +36,7 @@ private subscription: Subscription;
   
 
   ngOnInit() {
-    this.documents = this.documentService.getDocuments();
+    this.documentService.getDocuments();
     this.subscription = this.documentService.documentListChangedEvent
       .subscribe(
         (documentsList: Document[]) => {

@@ -28,4 +28,18 @@ export class MessagesService {
     return null;
    }
 
+   getMaxId(): number{
+    var maxId = 0;
+    var currentId;
+
+    for(const message of this.messages){
+       currentId = +message.id;
+
+       if(currentId>maxId){
+         maxId = currentId;
+       }
+    }
+    return maxId;
+  }
+
 }

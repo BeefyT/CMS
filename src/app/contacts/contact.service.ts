@@ -77,10 +77,12 @@ maxContactId: number;
       if(newContact === undefined || newContact === null || originalContact === undefined || originalContact === null){
         return;
       }
-      var pos = this.contacts.indexOf(originalContact)
+      let pos = this.contacts.indexOf(originalContact);
+
       if(pos<0){
         return;
       }
+
       newContact.id = originalContact.id;
       this.contacts[pos] = newContact;
       var contactListClone = this.contacts.slice();

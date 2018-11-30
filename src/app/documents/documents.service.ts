@@ -2,6 +2,10 @@ import { Injectable, EventEmitter } from '@angular/core';
 import {Document} from './document.modle';
 import {MOCKDOCUMENTS} from './MOCKDOCUMENTS';
 import { Subject } from 'rxjs';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { nextTick } from 'q';
+
 
 
 
@@ -14,19 +18,51 @@ export class DocumentsService {
 
   documentSelectedEvent = new EventEmitter<Document>();
 
-  documentChangedEvent = new EventEmitter<Document[]>();
+  //documentChangedEvent = new EventEmitter<Document[]>();
 
   documents: Document[] = [];
 
   maxDocumentId: number;
 
-  constructor() { 
-    this.documents = MOCKDOCUMENTS;
-    this.maxDocumentId = this.getMaxId();
+  constructor(private http: HttpClient, private DocumentService: DocumentsService) { 
+    //this.documents = MOCKDOCUMENTS;
+    //this.maxDocumentId = this.getMaxId();
+    
+  }
+
+  storeDocuments(documents:Document[]) {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    this.http.put('https://cms-it.firebaseio.com/documents.json',
+    documents,
+     {headers:headers})
+     .subscribe(
+       (response: Response) => {
+         this.documentListChangedEvent.next(documents.slice());
+       }
+     );
+
   }
 
   getDocuments(){
-    return this.documents.slice();
+    //return this.documents.slice();
+
+    this.http.get('https://cms-it.firebaseio.com/documents.json')
+    .subscribe(
+      (documents: Document[]) => {
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+        documents.sort((a,b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
+        this.documentListChangedEvent.next(this.documents.slice());
+
+        //DONT UNDERSTAND THE EMIT PART
+      },
+
+      //ERROR FUNCTION
+      (error:any)=>{
+        console.log("Error");
+      }
+    )
   }
 
   getDocument(id: string): Document {
@@ -76,8 +112,8 @@ export class DocumentsService {
      this.maxDocumentId++;
      newDocument.id = this.maxDocumentId.toString();
      this.documents.push(newDocument);
-     var documentListClone = this.documents.slice();
-     this.documentListChangedEvent.next(documentListClone);
+     let documentListClone = this.documents.slice();
+     this.storeDocuments(documentListClone);
    }
 
    //NOT SURE IF RIGHT
@@ -85,14 +121,17 @@ export class DocumentsService {
      if(newDocument === undefined || newDocument === null || originalDocument === undefined || originalDocument === null){
        return;
      }
-     var pos = this.documents.indexOf(originalDocument)
+     let pos = this.documents.indexOf(originalDocument)
+
      if(pos<0){
        return;
      }
+
      newDocument.id = originalDocument.id;
      this.documents[pos] = newDocument;
      var documentListClone = this.documents.slice();
-     this.documentListChangedEvent.next(documentListClone);
+     this.storeDocuments(documentListClone);
+
    }
 
    //NOTE SURE IF RIGHT
@@ -101,15 +140,20 @@ export class DocumentsService {
        return;
      }
 
-     var pos = this.documents.indexOf(document);
+     let pos = this.documents.indexOf(document);
+     
      if(pos<0){
        return;
      }
+
      this.documents.slice(pos,1);
      var documentListClone = this.documents.slice();
-     this.documentListChangedEvent.next(documentListClone);
+     this.storeDocuments(documentListClone);
 
    }
+
+
+
 
 
 

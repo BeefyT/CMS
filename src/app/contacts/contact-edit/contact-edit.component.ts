@@ -47,37 +47,35 @@ export class ContactEditComponent implements OnInit {
         this.editMode = true;
         this.contact = JSON.parse(JSON.stringify(this.originalContact));
 
-        //if(this.contact.group === !Null){
-        //  this.contactGroup = JSON.parse(JSON.stringify(this.originalContact));
+        if(this.originalContact.group != null){
+         this.groupContacts = JSON.parse(JSON.stringify(this.originalContact.group));
 
-       // }
+        }
         
       }
     );
   }
 
   onSubmit(form: NgForm){
-    let name = form.value.userData.name;
-    let email = form.value.userData.email;
-    let phone = form.value.userData.phone;
-    let imageUrl = form.value.userData.imageUrl;
 
+    const value = form.value;
 
-    let newContact = new Contact("",name,email,phone,imageUrl,null);
+   let newContact = new Contact("",value.name,value.email,value.phone,value.imageUrl,this.groupContacts);
 
     if(this.editMode = true){
       this.contactService.updateContact(this.originalContact, newContact);
     }
     else{
       this.contactService.addContact(newContact);
+      console.log(newContact);
     }
 
-    this.router.navigate(['/contacts']);
+    this.router.navigate(['/contact']);
 
   }
 
   onCancel(){
-    this.router.navigate(['/contacts']);
+    this.router.navigate(['/contact']);
   }
 
   isInvalidContact(newContact: Contact){
